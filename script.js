@@ -1,25 +1,22 @@
-// API key and endpoint
-var API_KEY = "cbe55ac9-94b9-4ff0-90bd-f35a22620344"; // Replace this with a valid key
+var API_KEY = "cbe55ac9-94b9-4ff0-90bd-f35a22620344"; 
 var API_URL = "https://api.cricapi.com/v1/currentMatches?apikey=" + API_KEY;
 
-// HTML elements
 var scoresContainer = document.getElementById("scoresContainer");
 var loadingMessage = document.getElementById("loadingMessage");
 
-// Function to get live cricket scores
 function fetchLiveScores() {
-  loadingMessage.style.display = "block"; // Show loading message
+  loadingMessage.style.display = "block"; 
 
-  fetch(API_URL) // Call the API
+  fetch(API_URL) 
     .then(function (response) {
-      return response.json(); // Convert response to JSON
+      return response.json(); 
     })
     .then(function (data) {
       if (data && data.data) {
-        var matches = data.data; // Get match data
+        var matches = data.data; 
         if (matches.length > 0) {
-          loadingMessage.style.display = "none"; // Hide loading message
-          displayScores(matches); // Show the matches
+          loadingMessage.style.display = "none";
+          displayScores(matches); 
         } else {
           loadingMessage.innerText = "No live matches right now.";
         }
@@ -33,9 +30,8 @@ function fetchLiveScores() {
     });
 }
 
-// Function to show match data
 function displayScores(matches) {
-  scoresContainer.innerHTML = ""; // Clear old scores
+  scoresContainer.innerHTML = ""; 
 
   for (var i = 0; i < matches.length; i++) {
     var match = matches[i];
@@ -45,7 +41,6 @@ function displayScores(matches) {
     var score = "Score not available";
     var status = "N/A";
 
-    // Check if team names are available
     if (match.teamInfo) {
       if (match.teamInfo[0]) {
         team1 = match.teamInfo[0].name || "Team 1";
@@ -55,17 +50,13 @@ function displayScores(matches) {
       }
     }
 
-    // Check if score is available
     if (match.score && match.score.length > 0) {
       score = match.score[0].r + "/" + match.score[0].w;
     }
 
-    // Check if status is available
     if (match.status) {
       status = match.status;
     }
-
-    // Create a simple match card
     var matchDiv = document.createElement("div");
     matchDiv.className = "match";
 
@@ -82,7 +73,7 @@ function displayScores(matches) {
       status +
       "</p>";
 
-    scoresContainer.appendChild(matchDiv); // Add match card to container
+    scoresContainer.appendChild(matchDiv); 
   }
 }
 
